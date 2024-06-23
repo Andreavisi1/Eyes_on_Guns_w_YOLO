@@ -1,0 +1,7 @@
+names:
+- Handgun
+- Machine_Gun
+nc: 2
+test: ./Gun_Action_Recognition_Dataset/test
+train: ../Gun_Action_Recognition_Dataset/train
+val: ../Gun_Action_Recognition_Dataset/val
