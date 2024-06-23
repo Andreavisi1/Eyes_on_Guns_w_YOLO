@@ -30,7 +30,7 @@ def plot_comparison(df, metric, save_dir):
     plt.xlabel('Epoch', fontsize=14)
     plt.ylabel(metric, fontsize=14)
     plt.grid(True)
-    plt.legend(title='Model', fontsize=12)
+    plt.legend(title='Model', fontsize=12, loc='lower right')
 
     # Save the plot
     plot_path = os.path.join(save_dir, f'{metric.replace("/", "_")}.png')
@@ -53,7 +53,7 @@ metrics = ['metrics/precision(B)', 'metrics/recall(B)', 'metrics/mAP50(B)', 'met
            'val/box_loss', 'val/cls_loss']
 
 # Create the directory to save plots
-save_dir = './model_plots'
+save_dir = './model_plots_ongoing1'
 os.makedirs(save_dir, exist_ok=True)
 
 # Plot comparison graphs for each metric
