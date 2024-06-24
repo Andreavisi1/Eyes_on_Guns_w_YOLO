@@ -22,9 +22,8 @@ The goal of this project is to recognize gun actions using custom-trained YOLO m
 To get started, clone this repository and install the necessary dependencies:
 
 ```bash
-git clone https://github.com/your-username/gun-action-recognition.git
+git clone [https://github.com/your-username/gun-action-recognition.git](https://github.com/Andreavisi1/Eyes_on_Guns_w_YOLO)
 cd gun-action-recognition
-pip install -r requirements.txt
 ```
 
 ## Dataset Preparation
@@ -33,16 +32,18 @@ The dataset consists of videos categorized into `Handgun`, `Machine_Gun`, and `N
 
 ```
 Gun_Action_Recognition_Dataset/
-    Handgun/
-    Machine_Gun/
-    No_Gun/
+|
+|--- Handgun/
+|--- Machine_Gun/
+|--- No_Gun/
 ```
 
 ### Extract Frames and Convert Labels
 
 Run the script to extract frames from videos and convert labels to YOLO format:
 
-```bash
+```python
+# Extract frames and convert labels
 python extract_and_convert.py
 ```
 
@@ -52,7 +53,17 @@ Custom YOLO models can be trained using the provided scripts. The models are tra
 
 ### Example Training Command
 
-Initialize the YOLO model with a pre-trained weight file and run the custom training function provided in the repository. The training script handles error checking and saves problematic batches for further inspection if any errors occur.
+```python
+# Initialize YOLO model
+model = YOLO('basic_models/choose_favourite_model.pt')
+
+# Custom training function
+def custom_train(model, yaml_filename, epochs=10, batch_size=16, imgsz=480):
+    # Training logic here...
+
+# Execute custom training
+custom_train(model, 'choose_file_yaml.yaml', epochs=10, batch_size=16, imgsz=640)
+```
 
 ## Using EigenCAM for Explainable AI
 
@@ -60,7 +71,22 @@ EigenCAM is used to generate visual explanations for the YOLO model's prediction
 
 ### Example Usage of EigenCAM
 
-Load the trained YOLO model, use EigenCAM for explanations, and visualize the results. This process will generate and display CAM images that highlight the areas in the input images that contributed most to the model's predictions.
+```python
+from yolov8_cam.eigen_cam import EigenCAM
+from yolov8_cam.utils.image import show_cam_on_image
+
+# Load the trained YOLO model
+model = YOLO('choose_favourite_model.pt')
+
+# Use EigenCAM for explanations
+cam = EigenCAM(model, target_layers, task='od')
+grayscale_cam = cam(rgb_img, eigen_smooth=True, principal_comp=principal_comp)
+
+for i in range(grayscale_cam.shape[3]):
+    cam_image = show_cam_on_image(img, grayscale_cam[0,:,:,i], use_rgb=True)
+    plt.imshow(cam_image)
+    plt.show()
+```
 
 ## Results and Evaluation
 
@@ -68,7 +94,13 @@ After training, evaluate the model using the test set and visualize the results 
 
 ### Example Evaluation Command
 
-Run the provided script to verify the dataset structure and ensure that the data splits are correctly assigned. This will help in validating the training and testing data setup before running the model.
+```python
+# Verify the dataset structure
+if check_dataset_structure(dataset_base_path):
+    print("Dataset structure is correct.")
+else:
+    print("Dataset structure has issues.")
+```
 
 ## Contributing
 
@@ -79,4 +111,3 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
