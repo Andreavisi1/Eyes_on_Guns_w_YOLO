@@ -3,20 +3,26 @@ import shutil
 import random
 from collections import Counter, defaultdict
 
-
+"""
+Create directories for train, val, and test splits with images and labels subdirectories.
+"""
 def create_dirs(base_path):
     for dir_name in ['train', 'val', 'test']:
         os.makedirs(os.path.join(base_path, dir_name, 'images'), exist_ok=True)
         os.makedirs(os.path.join(base_path, dir_name, 'labels'), exist_ok=True)
 
-
+"""
+Copy files from source to destination.
+"""
 def copy_files(src, dst, files):
     for f in files:
         src_file = os.path.join(src, f)
         dst_file = os.path.join(dst, f)
         shutil.copy(src_file, dst_file)
 
-
+"""
+Split dataset into train, validation, and test sets based on the specified ratios and isolated features.
+"""
 def split_dataset(base_path, split_ratios=(0.8, 0.2), isolate_feature=None, isolate_test=None):
 
     assert round(sum(split_ratios), 10) == 1, "The split ratios must sum to 1."
@@ -63,6 +69,9 @@ def split_dataset(base_path, split_ratios=(0.8, 0.2), isolate_feature=None, isol
 
     random.shuffle(train_val_data)
 
+    """
+    Split train and validation data based on the specified ratios.
+    """
     def split_train_val_data(data, split_ratios):
         feature_groups = defaultdict(list)
         for item in data:
@@ -120,7 +129,9 @@ def split_dataset(base_path, split_ratios=(0.8, 0.2), isolate_feature=None, isol
     print("Data split complete.")
     return splits
 
-
+"""
+Check if frames are assigned to the same split.
+"""
 def check_frames_in_same_split(splits):
     folder_to_split = {}
 
@@ -134,7 +145,9 @@ def check_frames_in_same_split(splits):
 
     print("Verification complete - every folder is assigned to one split.")
 
-
+"""
+Check the balance of data based on the specified feature.
+"""
 def check_balance(splits, feature):
     total_counts = Counter()
     split_counts = {'train': Counter(), 'val': Counter(), 'test': Counter()}
@@ -160,6 +173,9 @@ def check_balance(splits, feature):
         print(
             f"{key:<20} {total_counts[key]:<10} {train_count:<10} {val_count:<10} {test_count:<10} {train_percent:<10.2f} {val_percent:<10.2f} {test_percent:<10.2f}")
 
+"""
+Check if the specified subjects are only in the test set.
+"""
 def check_subject_in_test_set(splits, isolate_feature, isolate_test):
     for split, split_data in splits.items():
         for item in split_data:
@@ -173,7 +189,9 @@ def check_subject_in_test_set(splits, isolate_feature, isolate_test):
 
     print(f"Verification complete - {subject} is correctly assigned only to the test set.")
 
-
+"""
+Print statistics about the splits.
+"""
 def print_split_statistics(splits):
     total_frames = {split: sum(len(item['images']) for item in data) for split, data in splits.items()}
     grand_total = sum(total_frames.values())
@@ -185,19 +203,18 @@ def print_split_statistics(splits):
         percentage = (count / grand_total) * 100 if grand_total > 0 else 0
         print(f"{split:<10} {count:<10} {percentage:<10.2f}")
 
-
-# Utilizzo del codice
+# Usage of the code
 base_path = './Gun_Action_Recognition_Dataset'
-split_ratios = (0.8, 0.2)  # Modificato perché ci sono solo train e val ora
+split_ratios = (0.8, 0.2)  # Modified to have only train and val
 
-isolate_feature = "subject" # Specificare la feature di interesse
-isolate_test = ['V4']  # Specificare l'istanza della featureda isolare nel test set
+isolate_feature = "subject"  # Specify the feature of interest
+isolate_test = ['V4']  # Specify the instance of the feature to isolate in the test set
 
-#isolate_feature = "place" # Specificare la feature di interesse
-#isolate_test = ['P4']  # Specificare l'istanza della featureda isolare nel test set
+#isolate_feature = "place"
+#isolate_test = ['P4']
 
-#isolate_feature = "place" # Specificare la feature di interesse
-#isolate_test = ['P5']  # Specificare l'istanza della featureda isolare nel test set
+#isolate_feature = "place"
+#isolate_test = ['P5']
 
 splits = split_dataset(base_path, split_ratios, isolate_feature, isolate_test)
 
@@ -206,8 +223,8 @@ check_balance(splits, 'category')
 check_balance(splits, 'place')
 check_balance(splits, 'subject')
 
-# Verifica che tutti i frame dei video con il soggetto specificato siano solo nel test set
+# Verify that all frames of the specified subject are only in the test set
 check_subject_in_test_set(splits, isolate_feature, isolate_test)
 
-# Stampa il numero e le percentuali di frame totali in ogni split
+# Print the number and percentages of total frames in each split
 print_split_statistics(splits)

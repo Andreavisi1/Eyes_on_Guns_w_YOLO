@@ -1,6 +1,6 @@
 task: detect
 mode: train
-model: /root/train_w_YOLOv9c/weights/bestdata.pt
+model: /root/E2 - train_w_YOLOv9c/weights/bestdata.pt
 data: /root/EigenCam/guns_dataset.yaml
 epochs: 100
 time: null

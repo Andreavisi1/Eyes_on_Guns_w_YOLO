@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 import glob
 import os
 
-
-# Function to read and preprocess the CSV files
+"""
+Function to read and preprocess the CSV files.
+"""
 def read_results(files):
     dfs = []
     for file in files:
@@ -15,8 +16,9 @@ def read_results(files):
         dfs.append(df)
     return pd.concat(dfs, ignore_index=True)
 
-
-# Function to plot comparison graphs and save them
+"""
+Function to plot comparison graphs and save them.
+"""
 def plot_comparison(df, metric, save_dir):
     pivot_df = df.pivot(index='epoch', columns='model', values=metric)
     pivot_df.dropna(how='all', inplace=True)  # Drop rows where all elements are NaN
@@ -37,26 +39,37 @@ def plot_comparison(df, metric, save_dir):
     plt.savefig(plot_path)
     plt.close()
 
-
-# List all CSV files in the current directory
+"""
+List all CSV files in the current directory.
+"""
 files = glob.glob("*.csv")
 
-# Read and preprocess the CSV files
+"""
+Read and preprocess the CSV files.
+"""
 df = read_results(files)
 
-# Print the columns of the dataframe to inspect the structure
+"""
+Print the columns of the dataframe to inspect the structure.
+"""
 print("Columns in the dataframe:", df.columns)
 print(df.head())
 
-# Define the metrics to be compared
+"""
+Define the metrics to be compared.
+"""
 metrics = ['metrics/precision(B)', 'metrics/recall(B)', 'metrics/mAP50(B)', 'metrics/mAP50-95(B)',
            'val/box_loss', 'val/cls_loss']
 
-# Create the directory to save plots
+"""
+Create the directory to save plots.
+"""
 save_dir = './model_plots_ongoing1'
 os.makedirs(save_dir, exist_ok=True)
 
-# Plot comparison graphs for each metric
+"""
+Plot comparison graphs for each metric.
+"""
 for metric in metrics:
     if metric in df.columns:
         plot_comparison(df, metric, save_dir)

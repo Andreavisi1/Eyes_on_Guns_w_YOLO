@@ -6,7 +6,9 @@ import json
 from datetime import datetime
 from collections import Counter
 
-
+"""
+Select a random video from the specified folder.
+"""
 def select_random_video_from_folder(folder_path):
     video_extensions = ['.mp4', '.avi', '.mov', '.mkv', '.flv', '.wmv']
     video_files = []
@@ -22,7 +24,9 @@ def select_random_video_from_folder(folder_path):
     random_video = random.choice(video_files)
     return random_video
 
-
+"""
+Select random videos from the base folder for specified categories.
+"""
 def select_random_videos(base_folder):
     categories = ['Handgun', 'Machine_Gun', 'No_Gun']
     selected_videos = {}
@@ -34,13 +38,15 @@ def select_random_videos(base_folder):
             if random_video:
                 selected_videos[category] = random_video
             else:
-                selected_videos[category] = "Nessun video trovato"
+                selected_videos[category] = "No video found"
         else:
-            selected_videos[category] = f"La cartella {category} non esiste nel percorso specificato"
+            selected_videos[category] = f"The folder {category} does not exist in the specified path"
 
     return selected_videos
 
-
+"""
+Run YOLO model on the specified video and save the detection results.
+"""
 def run_yolo_on_video(model, video_path, output_dir, detection_results):
     video_name = os.path.basename(video_path)
     relative_video_path = os.path.relpath(video_path, start=output_dir)
@@ -91,22 +97,21 @@ def run_yolo_on_video(model, video_path, output_dir, detection_results):
 
     detection_results.append((relative_video_path, video_detection_results))
 
-
-# Percorso della cartella di test
+# Path to the test folder
 test_folder_path = '/Gun_Action_Recognition_Dataset'
-output_base_folder = '/Users/andreavisi/Desktop/PYTHON/Computer Vision e Deep Learning 2024/PROGETTO/inference'
+output_base_folder = '/Users/andreavisi/Desktop/PYTHON/Computer Vision and Deep Learning 2024/PROJECT/inference'
 
-# Genera un nome unico per la cartella di output
+# Generate a unique name for the output folder
 unique_output_folder = os.path.join(output_base_folder, datetime.now().strftime('%Y%m%d_%H%M%S'))
 os.makedirs(unique_output_folder, exist_ok=True)
 
-# Seleziona un video casuale da ciascuna categoria
+# Select a random video from each category
 random_videos = select_random_videos(test_folder_path)
 
-# Carica il modello YOLO
+# Load YOLO model
 model = YOLO('/epoch212/weights/best.pt')
 
-# Esegui il modello YOLO su ciascuno dei video selezionati e salva i risultati
+# Run YOLO model on each selected video and save the results
 detection_results = []
 for category, video_path in random_videos.items():
     if os.path.exists(video_path):
@@ -117,7 +122,7 @@ for category, video_path in random_videos.items():
     else:
         print(f"Skipping {category}: {video_path}")
 
-# Salva i risultati delle rilevazioni in un file di testo
+# Save detection results to a text file
 results_file = os.path.join(unique_output_folder, 'detection_results.txt')
 with open(results_file, 'w') as f:
     for relative_video_path, video_results in detection_results:
