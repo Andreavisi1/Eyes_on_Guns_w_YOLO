@@ -80,4 +80,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-Copy and paste this README into your GitHub repository to provide clear and comprehensive instructions for using the project.
