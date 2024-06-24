@@ -109,7 +109,7 @@ else:
 
 | Contributor Name      | GitHub                                  |
 |:----------------------|:----------------------------------------|
-| 🍎 **Piergallini Enrico**    | [Click here]((https://github.com/enricopierga)) |
+| 🍎 **Piergallini Enrico**    | [Click here](https://github.com/enricopierga) |
 | 🍏 **Visi Andrea**        | [Click here](https://github.com/Andreavisi1) |
 
 
