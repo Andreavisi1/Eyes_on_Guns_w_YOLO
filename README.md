@@ -38,6 +38,8 @@ Gun_Action_Recognition_Dataset/
 |--- No_Gun/
 ```
 
+If you'd like to follow the steps to train a new model, please run the "train.ipynb" file (including the unzipping section!)
+
 ### Extract Frames and Convert Labels
 
 Run the script to extract frames from videos and convert labels to YOLO format:
