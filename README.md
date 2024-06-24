@@ -23,7 +23,7 @@ To get started, clone this repository and install the necessary dependencies:
 
 ```bash
 git clone https://github.com/Andreavisi1/Eyes_on_Guns_w_YOLO
-cd gun-action-recognition
+cd Eyes_on_Guns_w_YOLO
 ```
 
 ## Dataset Preparation
