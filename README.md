@@ -22,7 +22,7 @@ The goal of this project is to recognize gun actions using custom-trained YOLO m
 To get started, clone this repository and install the necessary dependencies:
 
 ```bash
-git clone [https://github.com/your-username/gun-action-recognition.git](https://github.com/Andreavisi1/Eyes_on_Guns_w_YOLO)
+git clone [https://github.com/Andreavisi1/Eyes_on_Guns_w_YOLO]
 cd gun-action-recognition
 ```
 
